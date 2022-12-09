@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/server",
-    "dev": "nodemon --exec ts-node --transpile-only src/server",
+    "dev": "nodemon --exec ts-node --ext ts,json src/main/server --transpile-only",
     "test": "jest",
     "build": "rimraf dist && tsc",
     "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix",
