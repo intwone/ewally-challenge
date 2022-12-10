@@ -4,7 +4,7 @@ import { CleanPersonsRepositoryProtocol } from '../../protocols/repositories/per
 import { InsertPersonRepositoryProtocol } from '../../protocols/repositories/person/insert-person-repository-protocol';
 import { LoadAllPersonsRepositoryProtocol } from '../../protocols/repositories/person/load-all-persons-repository-protocol';
 import { LoadPersonByDocumentRepositoryProtocol } from '../../protocols/repositories/person/load-person-by-document-repository-protocol';
-import { CreatePersonParamsProtocol } from '../../protocols/usecases/create-person-usecase-protocol';
+import { CreatePersonParamsProtocol } from '../../protocols/usecases/person/create-person-usecase-protocol';
 import { personTable } from '../db/person-table';
 
 export class MemoryPersonRepository

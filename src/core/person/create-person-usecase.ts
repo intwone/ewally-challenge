@@ -3,7 +3,7 @@ import { InsertPersonRepositoryProtocol } from '../../protocols/repositories/per
 import {
   CreatePersonParamsProtocol,
   CreatePersonUsecaseProtocol,
-} from '../../protocols/usecases/create-person-usecase-protocol';
+} from '../../protocols/usecases/person/create-person-usecase-protocol';
 
 export class CreatePersonUsecase implements CreatePersonUsecaseProtocol {
   constructor(
