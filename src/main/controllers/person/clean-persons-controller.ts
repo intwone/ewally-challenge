@@ -14,7 +14,7 @@ export class CleanPersonsController {
     } catch (error) {
       return response.status(500).json({
         code: 'UNEXPECTED_ERROR',
-        message: 'an unexpected error occurred',
+        message: 'an unexpected error occurred.',
       });
     }
   }

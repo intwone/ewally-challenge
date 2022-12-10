@@ -14,19 +14,17 @@ export class LoadPersonByDocumentController {
       const { document } = request.params;
       const formattedDocument = StringHelper.removeDocumentMask(document);
       const person = await loadPersonByDocumentUsecase.load(formattedDocument);
-
       if (!person) {
         return response.status(404).json({
           code: 'NOT_EXISTS_ERROR',
           message: 'document does not exist.',
         });
       }
-
       return response.json(person);
     } catch (error) {
       return response.status(500).json({
         code: 'UNEXPECTED_ERROR',
-        message: 'an unexpected error occurred',
+        message: 'an unexpected error occurred.',
       });
     }
   }
