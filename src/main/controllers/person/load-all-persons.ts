@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { LoadAllPersonsUsecase } from '../../../core/person/load-all-persons-usecase';
+import { UnexpectedError } from '../../../errors/unexpected-error';
 import { MemoryPersonRepository } from '../../../infra/repositories/memory-person-repository';
 
 const memoryPersonRepository = new MemoryPersonRepository();
@@ -11,10 +12,7 @@ export class LoadAllPersonsController {
       const persons = await loadAllPersonsUsecase.loadAll();
       return response.json(persons);
     } catch (error) {
-      return response.status(500).json({
-        code: 'UNEXPECTED_ERROR',
-        message: 'an unexpected error occurred.',
-      });
+      return response.status(500).json(new UnexpectedError());
     }
   }
 }

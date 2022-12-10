@@ -1,60 +1,49 @@
 import { Request, Response } from 'express';
 import { CreateRelationshipUsecase } from '../../../core/relationship/create-relationship-usecase';
+import { DocumentLengthError } from '../../../errors/document-length-error';
+import { InvalidCaractersError } from '../../../errors/invalid-characters-error';
+import { InvalidRelationshipError } from '../../../errors/invalid-relationship-error';
+import { MissingParamError } from '../../../errors/missing-param-error';
+import { UnexpectedError } from '../../../errors/unexpected-error';
 import { MemoryPersonRepository } from '../../../infra/repositories/memory-person-repository';
 import { MemoryRelationshipRepository } from '../../../infra/repositories/memory-relationship-repository';
+import { DocumentOnlyNumberValidator } from '../../../validators/document-only-numbers-validator';
 import { DocumentValidation } from '../../../validators/document-validator';
 
 const documentValidator = new DocumentValidation();
+const documentOnlyNumberValidator = new DocumentOnlyNumberValidator();
 const memoryRelationshipRepository = new MemoryRelationshipRepository();
 const memoryPersonRepository = new MemoryPersonRepository();
 const createRelationshipUsecase = new CreateRelationshipUsecase(
-  memoryPersonRepository,
   memoryRelationshipRepository,
+  memoryPersonRepository,
+  documentValidator,
+  documentOnlyNumberValidator,
 );
 
 export class CreateRelationshipController {
   async handle(request: Request, response: Response) {
     try {
       const { document1, document2 } = request.body;
-
-      if ([document1, document2].some(document => !document)) {
-        return response.status(400).json({
-          code: 'MISSING_PARAM_ERROR',
-          message: `two documents should be provided to create a relationship`,
-        });
-      }
-
-      for (const document of [document1, document2]) {
-        const isValidDocument = documentValidator.validate(document);
-        if (!isValidDocument) {
-          return response.status(400).json({
-            code: 'INVALID_LENGTH_DOCUMENT_ERROR',
-            message: `the document ${document} should be 11 caracters.`,
-          });
-        }
-      }
-      if (document1 === document2) {
-        return response.status(400).json({
-          code: 'INVALID_RELATIONSHIP',
-          message: 'you cannot create a relationship with the same documents',
-        });
-      }
-      const createRelationshipResult = await createRelationshipUsecase.create({
+      const relationship: any = await createRelationshipUsecase.create({
         document1,
         document2,
       });
-      if (!createRelationshipResult) {
-        return response.status(404).json({
-          code: 'NOT_EXISTS_ERROR',
-          message: 'one of the documents provided does not exist.',
-        });
+      if (relationship instanceof MissingParamError) {
+        return response.status(400).json(new MissingParamError());
+      }
+      if (relationship instanceof InvalidCaractersError) {
+        return response.status(404).json(new InvalidCaractersError());
+      }
+      if (relationship instanceof DocumentLengthError) {
+        return response.status(400).json(new DocumentLengthError());
+      }
+      if (relationship instanceof InvalidRelationshipError) {
+        return response.status(400).json(new InvalidRelationshipError());
       }
       return response.json();
     } catch (error) {
-      return response.status(500).json({
-        code: 'UNEXPECTED_ERROR',
-        message: 'an unexpected error occurred.',
-      });
+      return response.status(500).json(new UnexpectedError());
     }
   }
 }
