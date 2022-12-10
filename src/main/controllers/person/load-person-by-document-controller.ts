@@ -1,21 +1,11 @@
 import { Request, Response } from 'express';
-import { LoadPersonByDocumentUsecase } from '../../../core/person/load-person-by-document-usecase';
 import { DocumentLengthError } from '../../../errors/document-length-error';
 import { MissingParamError } from '../../../errors/missing-param-error';
 import { RegisterNotExists } from '../../../errors/register-not-exists';
 import { UnexpectedError } from '../../../errors/unexpected-error';
-import { MemoryPersonRepository } from '../../../infra/repositories/memory-person-repository';
-import { DocumentOnlyNumberValidator } from '../../../validators/document-only-numbers-validator';
-import { DocumentValidation } from '../../../validators/document-validator';
+import { loadPersonByDocumentControllerFactory } from '../../factories/usecases/person/load-person-by-document-controller-factory';
 
-const documentValidator = new DocumentValidation();
-const documentOnlyNumberValidator = new DocumentOnlyNumberValidator();
-const memoryPersonRepository = new MemoryPersonRepository();
-const loadPersonByDocumentUsecase = new LoadPersonByDocumentUsecase(
-  memoryPersonRepository,
-  documentValidator,
-  documentOnlyNumberValidator,
-);
+const loadPersonByDocumentUsecase = loadPersonByDocumentControllerFactory();
 
 export class LoadPersonByDocumentController {
   async handle(request: Request, response: Response) {

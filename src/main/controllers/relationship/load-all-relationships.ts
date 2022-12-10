@@ -1,12 +1,8 @@
 import { Request, Response } from 'express';
-import { LoadAllRelationshipsUsecase } from '../../../core/relationship/load-all-relationships-usecase';
 import { UnexpectedError } from '../../../errors/unexpected-error';
-import { MemoryRelationshipRepository } from '../../../infra/repositories/memory-relationship-repository';
+import { loadAllRelationships } from '../../factories/usecases/relationship/load-all-relationships';
 
-const memoryRelationshipRepository = new MemoryRelationshipRepository();
-const loadAllRelationshipsUsecase = new LoadAllRelationshipsUsecase(
-  memoryRelationshipRepository,
-);
+const loadAllRelationshipsUsecase = loadAllRelationships();
 
 export class LoadAllRelationshipsController {
   async handle(request: Request, response: Response) {

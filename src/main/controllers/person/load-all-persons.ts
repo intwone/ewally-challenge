@@ -1,10 +1,8 @@
 import { Request, Response } from 'express';
-import { LoadAllPersonsUsecase } from '../../../core/person/load-all-persons-usecase';
 import { UnexpectedError } from '../../../errors/unexpected-error';
-import { MemoryPersonRepository } from '../../../infra/repositories/memory-person-repository';
+import { loadAllPersonsControllerFactory } from '../../factories/usecases/person/load-all-persons-controller-factory';
 
-const memoryPersonRepository = new MemoryPersonRepository();
-const loadAllPersonsUsecase = new LoadAllPersonsUsecase(memoryPersonRepository);
+const loadAllPersonsUsecase = loadAllPersonsControllerFactory();
 
 export class LoadAllPersonsController {
   async handle(request: Request, response: Response) {

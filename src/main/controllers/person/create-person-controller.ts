@@ -1,23 +1,12 @@
 import { Request, Response } from 'express';
-import { CreatePersonUsecase } from '../../../core/person/create-person-usecase';
 import { DocumentAlreadyInUseError } from '../../../errors/document-already-in-use-error';
 import { DocumentLengthError } from '../../../errors/document-length-error';
 import { InvalidCaractersError } from '../../../errors/invalid-characters-error';
 import { MissingParamError } from '../../../errors/missing-param-error';
 import { UnexpectedError } from '../../../errors/unexpected-error';
-import { MemoryPersonRepository } from '../../../infra/repositories/memory-person-repository';
-import { DocumentOnlyNumberValidator } from '../../../validators/document-only-numbers-validator';
-import { DocumentValidation } from '../../../validators/document-validator';
+import { createPersonControllerFactory } from '../../factories/usecases/person/create-person-controller-factory';
 
-const documentValidator = new DocumentValidation();
-const documentOnlyNumberValidator = new DocumentOnlyNumberValidator();
-const memoryPersonRepository = new MemoryPersonRepository();
-const createPersonUsecase = new CreatePersonUsecase(
-  memoryPersonRepository,
-  memoryPersonRepository,
-  documentValidator,
-  documentOnlyNumberValidator,
-);
+const createPersonUsecase = createPersonControllerFactory();
 
 export class CreatePersonController {
   async handle(request: Request, response: Response) {
