@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { StatusCodeEnum } from '../../../enums/status-code-enum';
 import { DocumentLengthError } from '../../../errors/document-length-error';
 import { InvalidCaractersError } from '../../../errors/invalid-characters-error';
 import { InvalidRelationshipError } from '../../../errors/invalid-relationship-error';
@@ -17,20 +18,30 @@ export class CreateRelationshipController {
         document2,
       });
       if (relationship instanceof MissingParamError) {
-        return response.status(400).json(new MissingParamError());
+        return response
+          .status(StatusCodeEnum.BAD_REQUEST)
+          .json(new MissingParamError());
       }
       if (relationship instanceof InvalidCaractersError) {
-        return response.status(404).json(new InvalidCaractersError());
+        return response
+          .status(StatusCodeEnum.BAD_REQUEST)
+          .json(new InvalidCaractersError());
       }
       if (relationship instanceof DocumentLengthError) {
-        return response.status(400).json(new DocumentLengthError());
+        return response
+          .status(StatusCodeEnum.BAD_REQUEST)
+          .json(new DocumentLengthError());
       }
       if (relationship instanceof InvalidRelationshipError) {
-        return response.status(400).json(new InvalidRelationshipError());
+        return response
+          .status(StatusCodeEnum.BAD_REQUEST)
+          .json(new InvalidRelationshipError());
       }
-      return response.json();
+      return response.status(StatusCodeEnum.CREATED).json();
     } catch (error) {
-      return response.status(500).json(new UnexpectedError());
+      return response
+        .status(StatusCodeEnum.SERVER_ERROR)
+        .json(new UnexpectedError());
     }
   }
 }

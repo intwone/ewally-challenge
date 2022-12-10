@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { StatusCodeEnum } from '../../../enums/status-code-enum';
 import { UnexpectedError } from '../../../errors/unexpected-error';
 import { loadAllRelationships } from '../../factories/usecases/relationship/load-all-relationships';
 
@@ -8,9 +9,11 @@ export class LoadAllRelationshipsController {
   async handle(request: Request, response: Response) {
     try {
       const relationships = await loadAllRelationshipsUsecase.loadAll();
-      return response.json(relationships);
+      return response.status(StatusCodeEnum.OK).json(relationships);
     } catch (error) {
-      return response.status(500).json(new UnexpectedError());
+      return response
+        .status(StatusCodeEnum.SERVER_ERROR)
+        .json(new UnexpectedError());
     }
   }
 }
