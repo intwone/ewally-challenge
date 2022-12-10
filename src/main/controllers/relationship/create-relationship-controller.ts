@@ -26,7 +26,7 @@ export class CreateRelationshipController {
         }
       }
       if (document1 === document2) {
-        return response.status(404).json({
+        return response.status(400).json({
           code: 'INVALID_RELATIONSHIP',
           message: 'you cannot create a relationship with the same documents',
         });
