@@ -1,10 +1,19 @@
 import { randomUUID } from 'crypto';
 import { PersonProtocol } from '../../protocols/models/person-model-protocol';
-import { PersonRepositoryProtocol } from '../../protocols/repositories/person-repository-protocol';
+import { CleanPersonsRepositoryProtocol } from '../../protocols/repositories/clean-persons-repository-protocol';
+import { InsertPersonRepositoryProtocol } from '../../protocols/repositories/insert-person-repository-protocol';
+import { LoadAllPersonsRepositoryProtocol } from '../../protocols/repositories/load-all-persons-repository-protocol';
+import { LoadPersonByDocumentRepositoryProtocol } from '../../protocols/repositories/load-person-by-document-repository-protocol';
 import { CreatePersonParamsProtocol } from '../../protocols/usecases/create-person-usecase-protocol';
 import { personTable } from '../db/person-table';
 
-export class MemoryPersonRepository implements PersonRepositoryProtocol {
+export class MemoryPersonRepository
+  implements
+    CleanPersonsRepositoryProtocol,
+    InsertPersonRepositoryProtocol,
+    LoadAllPersonsRepositoryProtocol,
+    LoadPersonByDocumentRepositoryProtocol
+{
   async loadByDocument(document: string): Promise<PersonProtocol> {
     const personFound = personTable.find(
       person => person.document === document,
@@ -18,7 +27,7 @@ export class MemoryPersonRepository implements PersonRepositoryProtocol {
     return person;
   }
 
-  async cleanPersons(): Promise<void> {
+  async clean(): Promise<void> {
     personTable.length = 0;
   }
 

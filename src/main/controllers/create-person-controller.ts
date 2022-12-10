@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { LoadPersonByDocumentUsecase } from '../../core/load-person-by-document-usecase';
+import { LoadPersonByDocumentUsecase } from '../../core/person/load-person-by-document-usecase';
 import { StringHelper } from '../../helpers/string-helper';
 import { MemoryPersonRepository } from '../../infra/repositories/memory-person-repository';
 import { DocumentValidation } from '../../validators/document-validator';

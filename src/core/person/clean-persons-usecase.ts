@@ -1,10 +1,12 @@
-import { PersonRepositoryProtocol } from '../../protocols/repositories/person-repository-protocol';
+import { CleanPersonsRepositoryProtocol } from '../../protocols/repositories/clean-persons-repository-protocol';
 import { CleanPersonsUsecaseProtocol } from '../../protocols/usecases/clean-persons-usecase-protocol';
 
 export class CreatePersonsUsecase implements CleanPersonsUsecaseProtocol {
-  constructor(private readonly personRepository: PersonRepositoryProtocol) {}
+  constructor(
+    private readonly cleanPersonsRepository: CleanPersonsRepositoryProtocol,
+  ) {}
 
   async clean(): Promise<void> {
-    this.personRepository.cleanPersons();
+    this.cleanPersonsRepository.clean();
   }
 }
