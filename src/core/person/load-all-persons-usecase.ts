@@ -1,5 +1,5 @@
 import { PersonProtocol } from '../../protocols/models/person-model-protocol';
-import { LoadAllPersonsRepositoryProtocol } from '../../protocols/repositories/load-all-persons-repository-protocol';
+import { LoadAllPersonsRepositoryProtocol } from '../../protocols/repositories/person/load-all-persons-repository-protocol';
 import { LoadAllPersonsUsecaseProtocol } from '../../protocols/usecases/load-all-persons-usecase-protocol';
 
 export class LoadAllPersonsUsecase implements LoadAllPersonsUsecaseProtocol {

@@ -1,4 +1,4 @@
-import { CleanPersonsRepositoryProtocol } from '../../protocols/repositories/clean-persons-repository-protocol';
+import { CleanPersonsRepositoryProtocol } from '../../protocols/repositories/person/clean-persons-repository-protocol';
 import { CleanPersonsUsecaseProtocol } from '../../protocols/usecases/clean-persons-usecase-protocol';
 
 export class CreatePersonsUsecase implements CleanPersonsUsecaseProtocol {

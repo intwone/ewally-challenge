@@ -1,5 +1,5 @@
 import { PersonProtocol } from '../../protocols/models/person-model-protocol';
-import { InsertPersonRepositoryProtocol } from '../../protocols/repositories/insert-person-repository-protocol';
+import { InsertPersonRepositoryProtocol } from '../../protocols/repositories/person/insert-person-repository-protocol';
 import {
   CreatePersonParamsProtocol,
   CreatePersonUsecaseProtocol,

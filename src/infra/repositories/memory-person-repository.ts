@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto';
 import { PersonProtocol } from '../../protocols/models/person-model-protocol';
-import { CleanPersonsRepositoryProtocol } from '../../protocols/repositories/clean-persons-repository-protocol';
-import { InsertPersonRepositoryProtocol } from '../../protocols/repositories/insert-person-repository-protocol';
-import { LoadAllPersonsRepositoryProtocol } from '../../protocols/repositories/load-all-persons-repository-protocol';
-import { LoadPersonByDocumentRepositoryProtocol } from '../../protocols/repositories/load-person-by-document-repository-protocol';
+import { CleanPersonsRepositoryProtocol } from '../../protocols/repositories/person/clean-persons-repository-protocol';
+import { InsertPersonRepositoryProtocol } from '../../protocols/repositories/person/insert-person-repository-protocol';
+import { LoadAllPersonsRepositoryProtocol } from '../../protocols/repositories/person/load-all-persons-repository-protocol';
+import { LoadPersonByDocumentRepositoryProtocol } from '../../protocols/repositories/person/load-person-by-document-repository-protocol';
 import { CreatePersonParamsProtocol } from '../../protocols/usecases/create-person-usecase-protocol';
 import { personTable } from '../db/person-table';
 
