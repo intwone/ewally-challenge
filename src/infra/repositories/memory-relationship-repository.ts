@@ -3,7 +3,7 @@ import { RelationshipProtocol } from '../../protocols/models/relationship-model-
 import { InsertRelationshipRepositoryProtocol } from '../../protocols/repositories/relationship/insert-relationship-repository-protocol';
 import { LoadAllRelationshipsRepositoryProtocol } from '../../protocols/repositories/relationship/load-all-relationships-repository-protocol';
 import { CreateRelationshipParamsProtocol } from '../../protocols/usecases/relationship/create-relationship-usecase-protocol';
-import { relationshipTable } from '../db/relationship-table';
+import { relationshipsTable } from '../db/relationships-table';
 
 export class MemoryRelationshipRepository
   implements
@@ -12,10 +12,10 @@ export class MemoryRelationshipRepository
 {
   async insert(data: CreateRelationshipParamsProtocol): Promise<void> {
     const relationship = { ...data, id: randomUUID() };
-    relationshipTable.push(relationship);
+    relationshipsTable.push(relationship);
   }
 
   async loadAll(): Promise<RelationshipProtocol[]> {
-    return relationshipTable;
+    return relationshipsTable;
   }
 }

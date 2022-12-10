@@ -16,6 +16,14 @@ export class CreateRelationshipController {
   async handle(request: Request, response: Response) {
     try {
       const { document1, document2 } = request.body;
+
+      if ([document1, document2].some(document => !document)) {
+        return response.status(400).json({
+          code: 'MISSING_PARAM_ERROR',
+          message: `two documents should be provided to create a relationship`,
+        });
+      }
+
       for (const document of [document1, document2]) {
         const isValidDocument = documentValidator.validate(document);
         if (!isValidDocument) {
