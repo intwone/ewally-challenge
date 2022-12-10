@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/server",
+    "start": "node dist/main/server",
     "dev": "nodemon --exec ts-node --ext ts,json src/main/server --transpile-only",
     "test": "jest",
     "build": "rimraf dist && tsc",
