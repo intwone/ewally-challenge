@@ -1,5 +1,5 @@
-import { PersonProtocol } from '../protocols/models/person-model-protocol';
-import { PersonRepositoryProtocol } from '../protocols/repositories/person-repository-protocol';
+import { PersonProtocol } from '../../protocols/models/person-model-protocol';
+import { PersonRepositoryProtocol } from '../../protocols/repositories/person-repository-protocol';
 
 export class LoadPersonByDocumentUsecase
   implements LoadPersonByDocumentUsecase

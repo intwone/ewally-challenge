@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CreatePersonsUsecase } from '../../core/clean-persons-usecase';
+import { CreatePersonsUsecase } from '../../core/person/clean-persons-usecase';
 import { MemoryPersonRepository } from '../../infra/repositories/memory-person-repository';
 
 const memoryPersonRepository = new MemoryPersonRepository();
