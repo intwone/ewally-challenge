@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { LoadAllPersonsUsecase } from '../../core/person/load-all-persons-usecase';
-import { MemoryPersonRepository } from '../../infra/repositories/memory-person-repository';
+import { LoadAllPersonsUsecase } from '../../../core/person/load-all-persons-usecase';
+import { MemoryPersonRepository } from '../../../infra/repositories/memory-person-repository';
 
 const memoryPersonRepository = new MemoryPersonRepository();
 const loadAllPersonsUsecase = new LoadAllPersonsUsecase(memoryPersonRepository);

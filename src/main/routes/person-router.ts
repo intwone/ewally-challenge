@@ -1,8 +1,8 @@
 import express from 'express';
-import { CleanPersonsController } from '../controllers/clean-persons-controller';
-import { CreatePersonController } from '../controllers/create-person-controller';
-import { LoadAllPersonsController } from '../controllers/load-all-persons';
-import { LoadPersonByDocumentController } from '../controllers/load-person-by-document-controller';
+import { CleanPersonsController } from '../controllers/person/clean-persons-controller';
+import { CreatePersonController } from '../controllers/person/create-person-controller';
+import { LoadAllPersonsController } from '../controllers/person/load-all-persons';
+import { LoadPersonByDocumentController } from '../controllers/person/load-person-by-document-controller';
 
 const router = express.Router();
 const createPersonController = new CreatePersonController();
