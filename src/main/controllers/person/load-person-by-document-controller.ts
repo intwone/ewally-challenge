@@ -4,18 +4,15 @@ import { DocumentLengthError } from '../../../errors/document-length-error';
 import { MissingParamError } from '../../../errors/missing-param-error';
 import { RegisterNotExists } from '../../../errors/register-not-exists';
 import { UnexpectedError } from '../../../errors/unexpected-error';
-import { StringHelper } from '../../../helpers/string-helper';
 import { MemoryPersonRepository } from '../../../infra/repositories/memory-person-repository';
 import { DocumentOnlyNumberValidator } from '../../../validators/document-only-numbers-validator';
 import { DocumentValidation } from '../../../validators/document-validator';
 
 const documentValidator = new DocumentValidation();
 const documentOnlyNumberValidator = new DocumentOnlyNumberValidator();
-const stringHelper = new StringHelper();
 const memoryPersonRepository = new MemoryPersonRepository();
 const loadPersonByDocumentUsecase = new LoadPersonByDocumentUsecase(
   memoryPersonRepository,
-  stringHelper,
   documentValidator,
   documentOnlyNumberValidator,
 );
