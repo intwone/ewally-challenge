@@ -3,7 +3,7 @@ import { MemoryPersonRepository } from '../../../../infra/repositories/memory-pe
 import { DocumentOnlyNumberValidator } from '../../../../validators/document-only-numbers-validator';
 import { DocumentValidation } from '../../../../validators/document-validator';
 
-export const createPersonControllerFactory = (): CreatePersonUsecase => {
+export const createPersonUsecaseFactory = (): CreatePersonUsecase => {
   const documentValidator = new DocumentValidation();
   const documentOnlyNumberValidator = new DocumentOnlyNumberValidator();
   const memoryPersonRepository = new MemoryPersonRepository();

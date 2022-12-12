@@ -1,13 +1,14 @@
 import { DocumentLengthError } from '../../errors/document-length-error';
 import { InvalidCaractersError } from '../../errors/invalid-characters-error';
 import { MissingParamError } from '../../errors/missing-param-error';
-import { RegisterNotExists } from '../../errors/register-not-exists';
+import { RegisterNotExistsError } from '../../errors/register-not-exists';
 import { PersonProtocol } from '../../protocols/models/person-model-protocol';
 import { LoadPersonByDocumentRepositoryProtocol } from '../../protocols/repositories/person/load-person-by-document-repository-protocol';
+import { LoadPersonByDocumentUsecaseProtocol } from '../../protocols/usecases/person/load-person-by-document-usecase.protocol';
 import { ValidationProtocol } from '../../protocols/validation-protocol';
 
 export class LoadPersonByDocumentUsecase
-  implements LoadPersonByDocumentUsecase
+  implements LoadPersonByDocumentUsecaseProtocol
 {
   constructor(
     private readonly loadPersonByDocumentRepository: LoadPersonByDocumentRepositoryProtocol,
@@ -32,7 +33,7 @@ export class LoadPersonByDocumentUsecase
       document,
     );
     if (!person) {
-      return new RegisterNotExists() as unknown as PersonProtocol;
+      return new RegisterNotExistsError() as unknown as PersonProtocol;
     }
     return person;
   }

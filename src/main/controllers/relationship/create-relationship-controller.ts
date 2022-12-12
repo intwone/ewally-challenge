@@ -5,9 +5,9 @@ import { InvalidCaractersError } from '../../../errors/invalid-characters-error'
 import { InvalidRelationshipError } from '../../../errors/invalid-relationship-error';
 import { MissingParamError } from '../../../errors/missing-param-error';
 import { UnexpectedError } from '../../../errors/unexpected-error';
-import { createRelationshipControllerFactory } from '../../factories/usecases/relationship/create-relationship-controller-factory';
+import { createRelationshipUsecaseFactory } from '../../factories/usecases/relationship/create-relationship-usecase-factory';
 
-const createRelationshipUsecase = createRelationshipControllerFactory();
+const createRelationshipUsecase = createRelationshipUsecaseFactory();
 
 export class CreateRelationshipController {
   async handle(request: Request, response: Response) {

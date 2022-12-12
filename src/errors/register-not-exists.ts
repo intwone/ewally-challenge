@@ -1,4 +1,4 @@
-export class RegisterNotExists extends Error {
+export class RegisterNotExistsError extends Error {
   constructor() {
     super();
     this.name = 'NOT_EXISTS_ERROR';

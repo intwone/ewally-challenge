@@ -15,7 +15,7 @@ export class CreateRelationshipUsecase
 {
   constructor(
     private readonly insertRelationshipRepository: InsertRelationshipRepositoryProtocol,
-    private readonly loadAllPersonsByDocumentsRepository: LoadAllPersonsByDocumentRepositoryProtocol,
+    private readonly loadAllPersonsByDocumentRepository: LoadAllPersonsByDocumentRepositoryProtocol,
     private readonly documentValidator: ValidationProtocol,
     private readonly documentOnlyNumbersValidator: ValidationProtocol,
   ) {}
@@ -40,7 +40,7 @@ export class CreateRelationshipUsecase
       return new InvalidRelationshipError() as unknown as boolean;
     }
     const personFounds =
-      await this.loadAllPersonsByDocumentsRepository.loadAllByDocument([
+      await this.loadAllPersonsByDocumentRepository.loadAllByDocument([
         persons.document1,
         persons.document2,
       ]);

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { StatusCodeEnum } from '../../../enums/status-code-enum';
 import { UnexpectedError } from '../../../errors/unexpected-error';
-import { loadAllRelationships } from '../../factories/usecases/relationship/load-all-relationships';
+import { loadAllRelationshipsUsecaseFactory } from '../../factories/usecases/relationship/load-all-relationships-usecase-factory';
 
-const loadAllRelationshipsUsecase = loadAllRelationships();
+const loadAllRelationshipsUsecase = loadAllRelationshipsUsecaseFactory();
 
 export class LoadAllRelationshipsController {
   async handle(request: Request, response: Response) {

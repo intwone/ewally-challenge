@@ -5,9 +5,9 @@ import { DocumentLengthError } from '../../../errors/document-length-error';
 import { InvalidCaractersError } from '../../../errors/invalid-characters-error';
 import { MissingParamError } from '../../../errors/missing-param-error';
 import { UnexpectedError } from '../../../errors/unexpected-error';
-import { createPersonControllerFactory } from '../../factories/usecases/person/create-person-controller-factory';
+import { createPersonUsecaseFactory } from '../../factories/usecases/person/create-person-usecase-factory';
 
-const createPersonUsecase = createPersonControllerFactory();
+const createPersonUsecase = createPersonUsecaseFactory();
 
 export class CreatePersonController {
   async handle(request: Request, response: Response) {
@@ -34,7 +34,7 @@ export class CreatePersonController {
       }
       if (person instanceof DocumentAlreadyInUseError) {
         return response
-          .status(StatusCodeEnum.BAD_REQUEST)
+          .status(StatusCodeEnum.CONFLICT)
           .json(new DocumentAlreadyInUseError());
       }
       return response.status(StatusCodeEnum.CREATED).json(person);

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { StatusCodeEnum } from '../../../enums/status-code-enum';
 import { UnexpectedError } from '../../../errors/unexpected-error';
-import { loadAllPersonsControllerFactory } from '../../factories/usecases/person/load-all-persons-controller-factory';
+import { loadAllPersonsUsecaseFactory } from '../../factories/usecases/person/load-all-persons-usecase-factory';
 
-const loadAllPersonsUsecase = loadAllPersonsControllerFactory();
+const loadAllPersonsUsecase = loadAllPersonsUsecaseFactory();
 
 export class LoadAllPersonsController {
   async handle(request: Request, response: Response) {
