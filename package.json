@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/main/server",
     "dev": "nodemon --exec ts-node --ext ts,json src/main/server --transpile-only",
-    "test": "jest",
+    "test": "jest --runInBand",
     "test:watch": "jest --passWithNoTests --watch --silent --noStackTrace --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
