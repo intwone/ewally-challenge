@@ -6,6 +6,15 @@ const memoryPersonRepository = new MemoryPersonRepository();
 
 describe('POST /relationship', () => {
   it('should return 201 if relationship created on success', async () => {
+    memoryPersonRepository.insert({
+      document: '11111111111',
+      name: 'any_name',
+    });
+    memoryPersonRepository.insert({
+      document: '22222222222',
+      name: 'any_name',
+    });
+
     await request(app)
       .post('/relationship')
       .send({ document1: '11111111111', document2: '22222222222' })
