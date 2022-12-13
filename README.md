@@ -313,4 +313,4 @@ Caso de erro quando houver algum problema inesperado na aplicação
 
 Dentro da pasta src/infra/db terá as duas tabelas fakes (person, relationships) pré preenchidas, assim pode ficar mais fácil de ver os relacionamentos durante os testes, mas se precisar, é possível criar e listar todos os relacionamentos.
 
-Infelizmente, não consegui implementar a lógica para mostrar a lista de recomendações por relevância, tentei algumas estratégias, porém, sem sucesso.
+Infelizmente, não consegui implementar a lógica para mostrar a lista de recomendações por relevância, tentei algumas estratégias, porém, sem sucesso. Então, deixei a listagem de amigos sem ordem do mais relevante para o menos relevante.
