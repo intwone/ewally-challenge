@@ -20,7 +20,7 @@ export class CreateRelationshipUsecase
     private readonly documentOnlyNumbersValidator: ValidationProtocol,
   ) {}
 
-  async create(persons: CreateRelationshipParamsProtocol): Promise<boolean> {
+  async a(persons: CreateRelationshipParamsProtocol): Promise<boolean> {
     if (Object.values(persons).some(document => !document)) {
       return new MissingParamError() as unknown as boolean;
     }
