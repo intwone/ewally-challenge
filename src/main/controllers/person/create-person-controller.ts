@@ -37,7 +37,7 @@ export class CreatePersonController {
           .status(StatusCodeEnum.BAD_REQUEST)
           .json(new DocumentAlreadyInUseError());
       }
-      return response.status(StatusCodeEnum.OK).json(person);
+      return response.status(StatusCodeEnum.OK).json();
     } catch (error) {
       return response
         .status(StatusCodeEnum.SERVER_ERROR)

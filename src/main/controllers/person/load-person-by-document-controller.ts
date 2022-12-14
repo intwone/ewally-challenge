@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { StatusCodeEnum } from '../../../enums/status-code-enum';
+import { InvalidCaractersError } from '../../../errors/invalid-characters-error';
 import { MissingParamError } from '../../../errors/missing-param-error';
 import { RegisterNotExistsError } from '../../../errors/register-not-exists';
 import { UnexpectedError } from '../../../errors/unexpected-error';
@@ -16,6 +17,11 @@ export class LoadPersonByDocumentController {
         return response
           .status(StatusCodeEnum.BAD_REQUEST)
           .json(new MissingParamError());
+      }
+      if (person instanceof InvalidCaractersError) {
+        return response
+          .status(StatusCodeEnum.BAD_REQUEST)
+          .json(new InvalidCaractersError());
       }
       if (person instanceof RegisterNotExistsError) {
         return response
