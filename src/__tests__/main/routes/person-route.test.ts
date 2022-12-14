@@ -30,7 +30,7 @@ describe('Person Routes', () => {
         .expect(400);
     });
 
-    it('should return 400 if document has an invalid character', async () => {
+    it('should return 400 if cpf has an invalid character', async () => {
       await request(app)
         .post('/person')
         .send({
@@ -40,7 +40,7 @@ describe('Person Routes', () => {
         .expect(400);
     });
 
-    it('should return 400 if document already exists', async () => {
+    it('should return 400 if cpf already exists', async () => {
       memoryPersonRepository.insert({
         cpf: '11111111111',
         name: 'any_name',
@@ -63,13 +63,13 @@ describe('GET /persons', () => {
   });
 });
 
-describe('GET /persons/:document', () => {
-  it('should return 200 if load person by document on success', async () => {
+describe('GET /persons/:cpf', () => {
+  it('should return 200 if load person by cpf on success', async () => {
     const existentDocument = '11111111111';
     await request(app).get(`/person/${existentDocument}`).expect(200);
   });
 
-  it('should return 404 if document not exists', async () => {
+  it('should return 404 if cpf not exists', async () => {
     const invalidDocument = '12345678901';
     await request(app).get(`/person/${invalidDocument}`).expect(404);
   });

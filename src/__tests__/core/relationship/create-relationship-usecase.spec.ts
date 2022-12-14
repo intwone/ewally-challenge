@@ -81,7 +81,7 @@ const makeSut = (): SutProtocols => {
 };
 
 describe('CreateRelationship Usecase', () => {
-  it('should return error if same document is not provided', async () => {
+  it('should return error if some cpf is not provided', async () => {
     const { sut } = makeSut();
     const params = { cpf1: 'any_document', cpf2: '' };
     const result = await sut.create(params);

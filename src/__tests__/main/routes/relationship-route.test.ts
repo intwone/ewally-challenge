@@ -21,21 +21,21 @@ describe('POST /relationship', () => {
       .expect(200);
   });
 
-  it('should return 400 if some document is not provided', async () => {
+  it('should return 400 if some cpf is not provided', async () => {
     await request(app)
       .post('/relationship')
       .send({ cpf1: '11111111111', cpf2: '' })
       .expect(400);
   });
 
-  it('should return 400 if some document has an invalid character', async () => {
+  it('should return 400 if some cpf has an invalid character', async () => {
     await request(app)
       .post('/relationship')
       .send({ cpf1: '111---111--', cpf2: '12345678901' })
       .expect(400);
   });
 
-  it('should return 400 if some document length is different 11', async () => {
+  it('should return 400 if some cpf length is different 11', async () => {
     await request(app)
       .post('/relationship')
       .send({ cpf1: '11111111111', cpf2: '222' })

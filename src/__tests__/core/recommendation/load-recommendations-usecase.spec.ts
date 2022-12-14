@@ -21,7 +21,7 @@ const mockLoadRecommendationsRepository =
     class LoadRecommendationsRepositoryStub
       implements LoadRecommendationsRepositoryProtocol
     {
-      async load(document: string): Promise<string[]> {
+      async load(cpf: string): Promise<string[]> {
         return Promise.resolve(['1111111111', '22222222222']);
       }
     }
@@ -83,7 +83,7 @@ const makeSut = (): SutProtocols => {
 };
 
 describe('LoadRecommendation Usecase', () => {
-  it('should return MissingParamError if document is not provided', async () => {
+  it('should return MissingParamError if cpf is not provided', async () => {
     const { sut } = makeSut();
     const result = await sut.loadAll('');
     expect(result).toBeInstanceOf(MissingParamError);

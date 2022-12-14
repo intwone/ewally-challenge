@@ -1,5 +1,5 @@
 import { RelationshipProtocol } from '../../models/relationship-model-protocol';
 
 export interface LoadAllRelationshipsUsecaseProtocol {
-  loadAll: (document: string) => Promise<RelationshipProtocol[]>;
+  loadAll: (cpf: string) => Promise<RelationshipProtocol[]>;
 }
