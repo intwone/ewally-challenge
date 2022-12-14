@@ -24,8 +24,7 @@ const mockInserPersonRepository = (): InsertPersonRepositoryProtocol => {
   {
     insert(data: CreatePersonParamsProtocol): Promise<PersonProtocol> {
       return Promise.resolve({
-        id: 'any_id',
-        document: 'any_document',
+        cpf: 'any_document',
         name: 'any_name',
       });
     }
@@ -38,7 +37,7 @@ const mockLoadPersonByDocumentoRepository =
     class LoadPersonByDocumentRepositoryStub
       implements LoadPersonByDocumentRepositoryProtocol
     {
-      loadByDocument(document: string): Promise<PersonProtocol> {
+      loadByDocument(cpf: string): Promise<PersonProtocol> {
         return Promise.resolve(null as unknown as PersonProtocol);
       }
     }
@@ -87,45 +86,45 @@ const makeSut = (): SutProtocols => {
 describe('CreatePersons Usecase', () => {
   it('should return error if same params is not provided', async () => {
     const { sut } = makeSut();
-    const params = { document: 'any_document', name: '' };
+    const params = { cpf: 'any_document', name: '' };
     const result = await sut.create(params);
     expect(result).toBeInstanceOf(MissingParamError);
   });
 
   it('should call DocumentValidator with correct param', async () => {
     const { sut, documentValidatorStub } = makeSut();
-    const params = { document: 'any_document', name: 'any_name' };
+    const params = { cpf: 'any_document', name: 'any_name' };
     const validateSpy = jest.spyOn(documentValidatorStub, 'validate');
     await sut.create(params);
-    expect(validateSpy).toHaveBeenCalledWith(params.document);
+    expect(validateSpy).toHaveBeenCalledWith(params.cpf);
   });
 
   it('should call DocumentOnlyNumbersValidator with correct param', async () => {
     const { sut, documentOnlyNumbersValidatorStub } = makeSut();
-    const params = { document: 'any_document', name: 'any_name' };
+    const params = { cpf: 'any_document', name: 'any_name' };
     const validateSpy = jest.spyOn(
       documentOnlyNumbersValidatorStub,
       'validate',
     );
     await sut.create(params);
-    expect(validateSpy).toHaveBeenCalledWith(params.document);
+    expect(validateSpy).toHaveBeenCalledWith(params.cpf);
   });
 
   it('should call LoadPersonByDocumentRepository with correct param', async () => {
     const { sut, loadPersonByDocumentRepositoryStub } = makeSut();
-    const params = { document: 'any_document', name: 'any_name' };
+    const params = { cpf: 'any_document', name: 'any_name' };
     const loadByDocumentSpy = jest.spyOn(
       loadPersonByDocumentRepositoryStub,
       'loadByDocument',
     );
     await sut.create(params);
-    expect(loadByDocumentSpy).toHaveBeenCalledWith(params.document);
+    expect(loadByDocumentSpy).toHaveBeenCalledWith(params.cpf);
   });
 
   it('should call InserPersonRepository with corrects values', async () => {
     const { sut, insertPersonRepositoryStub } = makeSut();
     const insertSpy = jest.spyOn(insertPersonRepositoryStub, 'insert');
-    const params = { document: 'any_document', name: 'any_name' };
+    const params = { cpf: 'any_document', name: 'any_name' };
     await sut.create(params);
     expect(insertSpy).toHaveBeenCalledWith(params);
   });
@@ -133,7 +132,7 @@ describe('CreatePersons Usecase', () => {
   it('should return DocumentLengthError if DocumentValidator returns false', async () => {
     const { sut, documentValidatorStub } = makeSut();
     jest.spyOn(documentValidatorStub, 'validate').mockReturnValue(false);
-    const params = { document: 'any_document', name: 'any_name' };
+    const params = { cpf: 'any_document', name: 'any_name' };
     const result = await sut.create(params);
     expect(result).toBeInstanceOf(DocumentLengthError);
   });
@@ -143,7 +142,7 @@ describe('CreatePersons Usecase', () => {
     jest
       .spyOn(documentOnlyNumbersValidatorStub, 'validate')
       .mockReturnValue(false);
-    const params = { document: 'any_document', name: 'any_name' };
+    const params = { cpf: 'any_document', name: 'any_name' };
     const result = await sut.create(params);
     expect(result).toBeInstanceOf(InvalidCaractersError);
   });
@@ -154,24 +153,22 @@ describe('CreatePersons Usecase', () => {
       .spyOn(loadPersonByDocumentRepositoryStub, 'loadByDocument')
       .mockReturnValue(
         Promise.resolve({
-          id: 'any_id',
           name: 'any_name',
-          document: 'any_document',
+          cpf: 'any_document',
         }),
       );
-    const params = { document: 'any_document', name: 'any_name' };
+    const params = { cpf: 'any_document', name: 'any_name' };
     const result = await sut.create(params);
     expect(result).toBeInstanceOf(DocumentAlreadyInUseError);
   });
 
   it('should return a person created', async () => {
     const { sut } = makeSut();
-    const params = { document: 'any_document', name: 'any_name' };
+    const params = { cpf: 'any_document', name: 'any_name' };
     const result = await sut.create(params);
     expect(result).toEqual({
-      id: 'any_id',
       name: 'any_name',
-      document: 'any_document',
+      cpf: 'any_document',
     });
   });
 });

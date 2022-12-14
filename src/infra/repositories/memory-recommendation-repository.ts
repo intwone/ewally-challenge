@@ -4,18 +4,18 @@ import { relationshipsTable } from '../db/relationships-table';
 export class MemoryRecommendationRepository
   implements LoadRecommendationsRepositoryProtocol
 {
-  async load(document: string): Promise<string[]> {
+  async load(cpf: string): Promise<string[]> {
     const loadFriends = (doc: string) => {
       const friends = relationshipsTable
         .filter(
           relationship =>
-            relationship.document1 === doc || relationship.document2 === doc,
+            relationship.cpf1 === doc || relationship.cpf2 === doc,
         )
         .map(relationship => {
-          if (relationship.document1 === doc) {
-            return relationship.document2;
+          if (relationship.cpf1 === doc) {
+            return relationship.cpf2;
           }
-          return relationship.document1;
+          return relationship.cpf1;
         });
       return friends;
     };
@@ -23,9 +23,9 @@ export class MemoryRecommendationRepository
     const friendsOfFriends: { friend: string; yourFriends: string[] }[] = [];
     const listFriendOfFriendNormalized: string[] = [];
 
-    [...new Set(loadFriends(document))].forEach(friend => {
+    [...new Set(loadFriends(cpf))].forEach(friend => {
       const yourFriends = [...new Set(loadFriends(friend))].filter(
-        documentFriend => documentFriend !== document,
+        documentFriend => documentFriend !== cpf,
       );
       if (yourFriends.length === 0) return;
       friendsOfFriends.push({ friend, yourFriends });
@@ -35,7 +35,7 @@ export class MemoryRecommendationRepository
       listFriendOfFriendNormalized.push(friend.friend, ...friend.yourFriends);
     });
 
-    const myFriendsList = loadFriends(document);
+    const myFriendsList = loadFriends(cpf);
 
     const notMyFriendsList = [...new Set(listFriendOfFriendNormalized)].filter(
       friend => {

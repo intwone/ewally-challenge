@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import { PersonProtocol } from '../../protocols/models/person-model-protocol';
 import { CleanPersonsRepositoryProtocol } from '../../protocols/repositories/person/clean-persons-repository-protocol';
 import { InsertPersonRepositoryProtocol } from '../../protocols/repositories/person/insert-person-repository-protocol';
@@ -16,29 +15,25 @@ export class MemoryPersonRepository
     LoadPersonByDocumentRepositoryProtocol,
     LoadAllPersonsByDocumentRepositoryProtocol
 {
-  async loadByDocument(document: string): Promise<PersonProtocol> {
-    const personFound = personTable.find(
-      person => person.document === document,
-    );
+  async loadByDocument(cpf: string): Promise<PersonProtocol> {
+    const personFound = personTable.find(person => person.cpf === cpf);
     return personFound as PersonProtocol;
   }
 
-  async loadAllByDocument(documents: string[]): Promise<boolean> {
-    const documentsFound = [];
+  async loadAllByDocument(cpfs: string[]): Promise<boolean> {
+    const cpfsFound = [];
 
-    for (const document of documents) {
-      const personFound = personTable.find(
-        person => person.document === document,
-      );
+    for (const cpf of cpfs) {
+      const personFound = personTable.find(person => person.cpf === cpf);
       if (personFound) {
-        documentsFound.push(document);
+        cpfsFound.push(cpf);
       }
     }
-    return documentsFound.length === documents.length;
+    return cpfsFound.length === cpfs.length;
   }
 
   async insert(data: CreatePersonParamsProtocol): Promise<PersonProtocol> {
-    const person = { ...data, id: randomUUID() };
+    const person = { ...data };
     personTable.push(person);
     return person;
   }

@@ -1,3 +1,3 @@
 export interface LoadAllPersonsByDocumentRepositoryProtocol {
-  loadAllByDocument: (documents: string[]) => Promise<boolean>;
+  loadAllByDocument: (cpfs: string[]) => Promise<boolean>;
 }

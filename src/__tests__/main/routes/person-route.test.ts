@@ -10,31 +10,21 @@ describe('Person Routes', () => {
   });
 
   describe('POST /person', () => {
-    it('should return 201 if create person', async () => {
+    it('should return 200 if create person', async () => {
       await request(app)
         .post('/person')
         .send({
-          document: '11111111111',
+          cpf: '11111111111',
           name: 'any_name',
         })
-        .expect(201);
+        .expect(200);
     });
 
     it('should return 400 if some param is not provided', async () => {
       await request(app)
         .post('/person')
         .send({
-          document: '',
-          name: 'any_name',
-        })
-        .expect(400);
-    });
-
-    it('should return 400 if document length is different 11', async () => {
-      await request(app)
-        .post('/person')
-        .send({
-          document: '111',
+          cpf: '',
           name: 'any_name',
         })
         .expect(400);
@@ -44,25 +34,25 @@ describe('Person Routes', () => {
       await request(app)
         .post('/person')
         .send({
-          document: '111---@+)11',
+          cpf: '111---@+)11',
           name: 'any_name',
         })
         .expect(400);
     });
 
-    it('should return 409 if document already exists', async () => {
+    it('should return 400 if document already exists', async () => {
       memoryPersonRepository.insert({
-        document: '11111111111',
+        cpf: '11111111111',
         name: 'any_name',
       });
 
       await request(app)
         .post('/person')
         .send({
-          document: '11111111111',
+          cpf: '11111111111',
           name: 'any_name',
         })
-        .expect(409);
+        .expect(400);
     });
   });
 });
@@ -79,19 +69,14 @@ describe('GET /persons/:document', () => {
     await request(app).get(`/person/${existentDocument}`).expect(200);
   });
 
-  it('should return 400 if document length is different 11', async () => {
-    const invalidDocument = '123';
-    await request(app).get(`/person/${invalidDocument}`).expect(400);
-  });
-
   it('should return 404 if document not exists', async () => {
     const invalidDocument = '12345678901';
     await request(app).get(`/person/${invalidDocument}`).expect(404);
   });
 });
 
-describe('DELETE /personst', () => {
-  it('should return 200 if clean person on success', async () => {
-    await request(app).delete(`/persons`).expect(200);
+describe('DELETE /clean', () => {
+  it('should return 200 if clean person and relationship on success', async () => {
+    await request(app).delete(`/clean`).expect(200);
   });
 });

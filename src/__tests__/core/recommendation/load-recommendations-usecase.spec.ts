@@ -3,12 +3,15 @@ import { LoadARecommendationsUsecase } from '../../../core/recommendation/load-r
 import { DocumentLengthError } from '../../../errors/document-length-error';
 import { InvalidCaractersError } from '../../../errors/invalid-characters-error';
 import { MissingParamError } from '../../../errors/missing-param-error';
+import { PersonProtocol } from '../../../protocols/models/person-model-protocol';
+import { LoadPersonByDocumentRepositoryProtocol } from '../../../protocols/repositories/person/load-person-by-document-repository-protocol';
 import { LoadRecommendationsRepositoryProtocol } from '../../../protocols/repositories/recommendations/load-recommendations-repository-protocol';
 import { ValidationProtocol } from '../../../protocols/validation-protocol';
 
 interface SutProtocols {
   sut: LoadARecommendationsUsecase;
   loadRecommendationsRepositoryStub: LoadRecommendationsRepositoryProtocol;
+  loadPersonByDocumentRepositoryStub: LoadPersonByDocumentRepositoryProtocol;
   documentValidatorStub: ValidationProtocol;
   documentOnlyNumbersValidatorStub: ValidationProtocol;
 }
@@ -23,6 +26,21 @@ const mockLoadRecommendationsRepository =
       }
     }
     return new LoadRecommendationsRepositoryStub();
+  };
+
+const mockLoadPersonByDocumentoRepository =
+  (): LoadPersonByDocumentRepositoryProtocol => {
+    class LoadPersonByDocumentRepositoryStub
+      implements LoadPersonByDocumentRepositoryProtocol
+    {
+      loadByDocument(cpf: string): Promise<PersonProtocol> {
+        return Promise.resolve({
+          name: 'any_name',
+          cpf: 'any_document',
+        });
+      }
+    }
+    return new LoadPersonByDocumentRepositoryStub();
   };
 
 const mockDocumentValidator = (): ValidationProtocol => {
@@ -44,16 +62,20 @@ const mockDocumentOnlyNumbersValidator = (): ValidationProtocol => {
 };
 
 const makeSut = (): SutProtocols => {
+  const loadPersonByDocumentRepositoryStub =
+    mockLoadPersonByDocumentoRepository();
   const loadRecommendationsRepositoryStub = mockLoadRecommendationsRepository();
   const documentValidatorStub = mockDocumentValidator();
   const documentOnlyNumbersValidatorStub = mockDocumentOnlyNumbersValidator();
   const sut = new LoadARecommendationsUsecase(
     loadRecommendationsRepositoryStub,
+    loadPersonByDocumentRepositoryStub,
     documentValidatorStub,
     documentOnlyNumbersValidatorStub,
   );
   return {
     sut,
+    loadPersonByDocumentRepositoryStub,
     loadRecommendationsRepositoryStub,
     documentValidatorStub,
     documentOnlyNumbersValidatorStub,

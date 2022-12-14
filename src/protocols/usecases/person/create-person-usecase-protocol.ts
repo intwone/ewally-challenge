@@ -1,7 +1,7 @@
 import { PersonProtocol } from '../../models/person-model-protocol';
 
 export interface CreatePersonParamsProtocol {
-  document: string;
+  cpf: string;
   name: string;
 }
 

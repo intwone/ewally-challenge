@@ -2,6 +2,7 @@ import { DocumentLengthError } from '../../errors/document-length-error';
 import { InvalidCaractersError } from '../../errors/invalid-characters-error';
 import { InvalidRelationshipError } from '../../errors/invalid-relationship-error';
 import { MissingParamError } from '../../errors/missing-param-error';
+import { RegisterNotExistsError } from '../../errors/register-not-exists';
 import { LoadAllPersonsByDocumentRepositoryProtocol } from '../../protocols/repositories/person/load-all-persons-by-document.protocol';
 import { InsertRelationshipRepositoryProtocol } from '../../protocols/repositories/relationship/insert-relationship-repository-protocol';
 import {
@@ -21,7 +22,7 @@ export class CreateRelationshipUsecase
   ) {}
 
   async create(persons: CreateRelationshipParamsProtocol): Promise<boolean> {
-    if (Object.values(persons).some(document => !document)) {
+    if (Object.values(persons).some(cpf => !cpf)) {
       return new MissingParamError() as unknown as boolean;
     }
     for await (const personDocument of Object.values(persons)) {
@@ -36,16 +37,16 @@ export class CreateRelationshipUsecase
         return new InvalidCaractersError() as unknown as boolean;
       }
     }
-    if (persons.document1 === persons.document2) {
+    if (persons.cpf1 === persons.cpf2) {
       return new InvalidRelationshipError() as unknown as boolean;
     }
     const personFounds =
       await this.loadAllPersonsByDocumentRepository.loadAllByDocument([
-        persons.document1,
-        persons.document2,
+        persons.cpf1,
+        persons.cpf2,
       ]);
     if (!personFounds) {
-      return new MissingParamError() as unknown as boolean;
+      return new RegisterNotExistsError() as unknown as boolean;
     }
     await this.insertRelationshipRepository.insert(persons);
     return true;

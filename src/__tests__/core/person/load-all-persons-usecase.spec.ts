@@ -15,14 +15,12 @@ const mockLoadAllPersonsRepository = (): LoadAllPersonsRepositoryProtocol => {
     loadAll(): Promise<PersonProtocol[]> {
       return Promise.resolve([
         {
-          id: 'any_id1',
           name: 'any_name1',
-          document: 'any_document1',
+          cpf: 'any_document1',
         },
         {
-          id: 'any_id2',
           name: 'any_name2',
-          document: 'any_document2',
+          cpf: 'any_document2',
         },
       ]);
     }

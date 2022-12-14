@@ -3,6 +3,7 @@ import { DocumentLengthError } from '../../../errors/document-length-error';
 import { InvalidCaractersError } from '../../../errors/invalid-characters-error';
 import { InvalidRelationshipError } from '../../../errors/invalid-relationship-error';
 import { MissingParamError } from '../../../errors/missing-param-error';
+import { RegisterNotExistsError } from '../../../errors/register-not-exists';
 import { LoadAllPersonsByDocumentRepositoryProtocol } from '../../../protocols/repositories/person/load-all-persons-by-document.protocol';
 import { InsertRelationshipRepositoryProtocol } from '../../../protocols/repositories/relationship/insert-relationship-repository-protocol';
 import { CreateRelationshipParamsProtocol } from '../../../protocols/usecases/relationship/create-relationship-usecase-protocol';
@@ -33,7 +34,7 @@ const mockLoadAllPersonsByDocumentRepository =
     class LoadAllPersonsByDocumentRepositoryStub
       implements LoadAllPersonsByDocumentRepositoryProtocol
     {
-      loadAllByDocument(documents: string[]): Promise<boolean> {
+      loadAllByDocument(cpfs: string[]): Promise<boolean> {
         return Promise.resolve(true);
       }
     }
@@ -82,31 +83,31 @@ const makeSut = (): SutProtocols => {
 describe('CreateRelationship Usecase', () => {
   it('should return error if same document is not provided', async () => {
     const { sut } = makeSut();
-    const params = { document1: 'any_document', document2: '' };
+    const params = { cpf1: 'any_document', cpf2: '' };
     const result = await sut.create(params);
     expect(result).toBeInstanceOf(MissingParamError);
   });
 
   it('should call DocumentValidator with correct params', async () => {
     const { sut, documentValidatorStub } = makeSut();
-    const params = { document1: 'any_document', document2: 'any_document' };
+    const params = { cpf1: 'any_document', cpf2: 'any_document' };
     const validateSpy = jest.spyOn(documentValidatorStub, 'validate');
     await sut.create(params);
-    expect(validateSpy).toHaveBeenCalledWith(params.document1);
-    expect(validateSpy).toHaveBeenCalledWith(params.document2);
+    expect(validateSpy).toHaveBeenCalledWith(params.cpf1);
+    expect(validateSpy).toHaveBeenCalledWith(params.cpf2);
     expect(validateSpy).toHaveBeenCalledTimes(2);
   });
 
   it('should call DocumentOnlyNumbersValidator with correct param', async () => {
     const { sut, documentOnlyNumbersValidatorStub } = makeSut();
-    const params = { document1: 'any_document', document2: 'any_document' };
+    const params = { cpf1: 'any_document', cpf2: 'any_document' };
     const validateSpy = jest.spyOn(
       documentOnlyNumbersValidatorStub,
       'validate',
     );
     await sut.create(params);
-    expect(validateSpy).toHaveBeenCalledWith(params.document1);
-    expect(validateSpy).toHaveBeenCalledWith(params.document2);
+    expect(validateSpy).toHaveBeenCalledWith(params.cpf1);
+    expect(validateSpy).toHaveBeenCalledWith(params.cpf2);
     expect(validateSpy).toHaveBeenCalledTimes(2);
   });
 
@@ -116,7 +117,7 @@ describe('CreateRelationship Usecase', () => {
       loadAllPersonsByDocumentRepositoryStub,
       `loadAllByDocument`,
     );
-    const params = { document1: 'any_document', document2: 'other_document' };
+    const params = { cpf1: 'any_document', cpf2: 'other_document' };
     await sut.create(params);
     expect(loadAllByDocumentSpy).toHaveBeenCalledWith([
       'any_document',
@@ -126,14 +127,14 @@ describe('CreateRelationship Usecase', () => {
 
   it('should return true if create relationship on success', async () => {
     const { sut } = makeSut();
-    const params = { document1: 'any_document', document2: 'other_document' };
+    const params = { cpf1: 'any_document', cpf2: 'other_document' };
     const result = await sut.create(params);
     expect(result).toBeTruthy();
   });
 
   it('should return MissingParamError if some document is not provided', async () => {
     const { sut } = makeSut();
-    const params = { document1: 'any_document', document2: '' };
+    const params = { cpf1: 'any_document', cpf2: '' };
     const result = await sut.create(params);
     expect(result).toBeInstanceOf(MissingParamError);
   });
@@ -141,7 +142,7 @@ describe('CreateRelationship Usecase', () => {
   it('should return DocumentLengthError if DocumentValidator return false', async () => {
     const { sut, documentValidatorStub } = makeSut();
     jest.spyOn(documentValidatorStub, 'validate').mockReturnValue(false);
-    const params = { document1: 'any_document', document2: 'any_document' };
+    const params = { cpf1: 'any_document', cpf2: 'any_document' };
     const result = await sut.create(params);
     expect(result).toBeInstanceOf(DocumentLengthError);
   });
@@ -151,14 +152,14 @@ describe('CreateRelationship Usecase', () => {
     jest
       .spyOn(documentOnlyNumbersValidatorStub, 'validate')
       .mockReturnValue(false);
-    const params = { document1: 'any_document', document2: 'any_document' };
+    const params = { cpf1: 'any_document', cpf2: 'any_document' };
     const result = await sut.create(params);
     expect(result).toBeInstanceOf(InvalidCaractersError);
   });
 
   it('should return InvalidRelationshipError if documents to be equals', async () => {
     const { sut } = makeSut();
-    const params = { document1: 'any_document', document2: 'any_document' };
+    const params = { cpf1: 'any_document', cpf2: 'any_document' };
     const result = await sut.create(params);
     expect(result).toBeInstanceOf(InvalidRelationshipError);
   });
@@ -168,14 +169,14 @@ describe('CreateRelationship Usecase', () => {
     jest
       .spyOn(loadAllPersonsByDocumentRepositoryStub, 'loadAllByDocument')
       .mockReturnValue(Promise.resolve(false));
-    const params = { document1: 'any_document', document2: 'other_document' };
+    const params = { cpf1: 'any_document', cpf2: 'other_document' };
     const result = await sut.create(params);
-    expect(result).toBeInstanceOf(MissingParamError);
+    expect(result).toBeInstanceOf(RegisterNotExistsError);
   });
 
   it('should return true if create relationship on success', async () => {
     const { sut } = makeSut();
-    const params = { document1: 'any_document', document2: 'other_document' };
+    const params = { cpf1: 'any_document', cpf2: 'other_document' };
     const result = await sut.create(params);
     expect(result).toBeTruthy();
   });

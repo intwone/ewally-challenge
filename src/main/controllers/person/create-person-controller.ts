@@ -12,9 +12,9 @@ const createPersonUsecase = createPersonUsecaseFactory();
 export class CreatePersonController {
   async handle(request: Request, response: Response) {
     try {
-      const { document, name } = request.body;
+      const { cpf, name } = request.body;
       const person = await createPersonUsecase.create({
-        document,
+        cpf,
         name,
       });
       if (person instanceof MissingParamError) {
@@ -34,10 +34,10 @@ export class CreatePersonController {
       }
       if (person instanceof DocumentAlreadyInUseError) {
         return response
-          .status(StatusCodeEnum.CONFLICT)
+          .status(StatusCodeEnum.BAD_REQUEST)
           .json(new DocumentAlreadyInUseError());
       }
-      return response.status(StatusCodeEnum.CREATED).json(person);
+      return response.status(StatusCodeEnum.OK).json(person);
     } catch (error) {
       return response
         .status(StatusCodeEnum.SERVER_ERROR)

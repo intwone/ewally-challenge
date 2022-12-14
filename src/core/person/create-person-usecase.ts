@@ -20,27 +20,27 @@ export class CreatePersonUsecase implements CreatePersonUsecaseProtocol {
   ) {}
 
   async create({
-    document,
+    cpf,
     name,
   }: CreatePersonParamsProtocol): Promise<PersonProtocol> {
-    if ([document, name].some(param => !param)) {
+    if ([cpf, name].some(param => !param)) {
       return new MissingParamError() as unknown as PersonProtocol;
     }
-    const isValidLengthDocument = this.documentValidator.validate(document);
+    const isValidLengthDocument = this.documentValidator.validate(cpf);
     if (!isValidLengthDocument) {
       return new DocumentLengthError() as unknown as PersonProtocol;
     }
     const documentHaveOnlyNumbers =
-      this.documentOnlyNumbersValidator.validate(document);
+      this.documentOnlyNumbersValidator.validate(cpf);
     if (!documentHaveOnlyNumbers) {
       return new InvalidCaractersError() as unknown as PersonProtocol;
     }
     const personAlreadyExists =
-      await this.loadPersonByDocumentRepository.loadByDocument(document);
+      await this.loadPersonByDocumentRepository.loadByDocument(cpf);
     if (personAlreadyExists) {
       return new DocumentAlreadyInUseError() as unknown as PersonProtocol;
     }
-    const person = await this.inserPersonRepository.insert({ document, name });
+    const person = await this.inserPersonRepository.insert({ cpf, name });
     return person;
   }
 }

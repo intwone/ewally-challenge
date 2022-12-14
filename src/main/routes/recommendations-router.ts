@@ -5,6 +5,6 @@ const router = express.Router();
 
 const listRecommendationsController = new ListRecommendationsController();
 
-router.get('/recommendations/:document', listRecommendationsController.handle);
+router.get('/recommendations/:cpf', listRecommendationsController.handle);
 
 export default router;

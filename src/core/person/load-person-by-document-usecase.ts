@@ -1,4 +1,3 @@
-import { DocumentLengthError } from '../../errors/document-length-error';
 import { InvalidCaractersError } from '../../errors/invalid-characters-error';
 import { MissingParamError } from '../../errors/missing-param-error';
 import { RegisterNotExistsError } from '../../errors/register-not-exists';
@@ -12,25 +11,20 @@ export class LoadPersonByDocumentUsecase
 {
   constructor(
     private readonly loadPersonByDocumentRepository: LoadPersonByDocumentRepositoryProtocol,
-    private readonly documentValidator: ValidationProtocol,
     private readonly documentOnlyNumbersValidator: ValidationProtocol,
   ) {}
 
-  async load(document: string): Promise<PersonProtocol> {
-    if (!document) {
+  async load(cpf: string): Promise<PersonProtocol> {
+    if (!cpf) {
       return new MissingParamError() as unknown as PersonProtocol;
     }
-    const isValidLengthDocument = this.documentValidator.validate(document);
-    if (!isValidLengthDocument) {
-      return new DocumentLengthError() as unknown as PersonProtocol;
-    }
     const documentHaveOnlyNumbers =
-      this.documentOnlyNumbersValidator.validate(document);
+      this.documentOnlyNumbersValidator.validate(cpf);
     if (!documentHaveOnlyNumbers) {
       return new InvalidCaractersError() as unknown as PersonProtocol;
     }
     const person = await this.loadPersonByDocumentRepository.loadByDocument(
-      document,
+      cpf,
     );
     if (!person) {
       return new RegisterNotExistsError() as unknown as PersonProtocol;

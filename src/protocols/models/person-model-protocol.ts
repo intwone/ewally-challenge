@@ -1,5 +1,4 @@
 export interface PersonProtocol {
-  id: string;
-  document: string;
+  cpf: string;
   name: string;
 }

@@ -12,7 +12,7 @@ const cleanPersonsController = new CleanPersonsController();
 
 router.post('/person', createPersonController.handle);
 router.get('/persons', loadAllPersonsController.handle);
-router.get('/person/:document', loadPersonByDocumentController.handle);
-router.delete('/persons', cleanPersonsController.handle);
+router.get('/person/:cpf', loadPersonByDocumentController.handle);
+router.delete('/clean', cleanPersonsController.handle);
 
 export default router;

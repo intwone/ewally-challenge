@@ -1,6 +1,6 @@
 export interface CreateRelationshipParamsProtocol {
-  document1: string;
-  document2: string;
+  cpf1: string;
+  cpf2: string;
 }
 
 export interface CreateRelationshipResultProtocol {
