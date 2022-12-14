@@ -26,7 +26,7 @@ export class ListRecommendationsController {
       }
       if (recommendation instanceof RegisterNotExistsError) {
         return response
-          .status(StatusCodeEnum.BAD_REQUEST)
+          .status(StatusCodeEnum.NOT_FOUND)
           .json(new RegisterNotExistsError());
       }
       return response.status(StatusCodeEnum.OK).json(recommendation);
