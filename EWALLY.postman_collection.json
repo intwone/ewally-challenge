@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"document\": \"11111111111\",\r\n    \"name\": \"Cassio\"\r\n}       ",
+					"raw": "{\r\n    \"cpf\": \"11111111222\",\r\n    \"name\": \"Cassio\"\r\n}       ",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,7 +41,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"document1\": \"22222222222\",\r\n    \"document2\": \"11111111111\"\r\n}       ",
+					"raw": "{\r\n    \"cpf1\": \"11111111111\",\r\n    \"cpf2\": \"11111111112\"\r\n}       ",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -63,12 +63,12 @@
 			"response": []
 		},
 		{
-			"name": "List Person By Document",
+			"name": "List Person By Cpf",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/person/1",
+					"raw": "http://localhost:3000/person/1111111111",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -76,7 +76,7 @@
 					"port": "3000",
 					"path": [
 						"person",
-						"1"
+						"1111111111"
 					]
 				}
 			},
@@ -126,7 +126,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/recommendations/11111111111",
+					"raw": "http://localhost:3000/recommendations/22222222222",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -134,7 +134,7 @@
 					"port": "3000",
 					"path": [
 						"recommendations",
-						"11111111111"
+						"22222222222"
 					]
 				}
 			},
@@ -146,14 +146,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/persons",
+					"raw": "http://localhost:3000/clean",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"persons"
+						"clean"
 					]
 				}
 			},
