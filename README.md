@@ -90,17 +90,13 @@ POST /person
 Descrição: Cria uma nova pessoa
 
 Body: {
-  "document": string,
+  "cpf": string,
   "name": string
 }
 
 Caso de sucesso:
-- status code: 201
-- response: {
-  "document": string,
-  "name": string,
-  "id": string
-}
+- status code: 200
+- response: não retorna nenhuma informação
 
 Caso de erro quando não for informado document ou name:
 - status code: 400
@@ -124,7 +120,7 @@ Caso de erro quando o documento tiver caracteres que não sejam números:
 }
 
 Caso de erro quando o documento já existir na base de dados:
-- status code: 409
+- status code: 400
 - response: {
   "name": "DOCUMENT_ALREADY_IN_USE_ERROR",
   "message": "the document is already being used"
@@ -146,9 +142,8 @@ Descrição: Busca todas pessoas cadastradas
 Caso de sucesso:
 - status code: 200
 - response: [{
-  "document": string,
-  "name": string,
-  "id": string
+  "cpf": string,
+  "name": string
 }]
 
 Caso de erro quando houver algum problema inesperado na aplicação
@@ -159,27 +154,26 @@ Caso de erro quando houver algum problema inesperado na aplicação
 }
 ```
 
-GET /person/:document
+GET /person/:cpf
 
 ```txt
-Descrição: Busca uma pessoa através do document
+Descrição: Busca uma pessoa através do cpf
 
 Caso de sucesso:
 - status code: 200
 - response: {
-  "document": string,
+  "cpf": string,
   "name": string,
-  "id": string
 }
 
-Caso de erro quando o document não tiver 11 números:
-- status code: 400
+Caso de erro quando o cpf não tiver 11 números:
+- status code: 404
 - response: {
-  "name": "INVALID_LENGTH_DOCUMENT_ERROR",
-  "message": "the document should be 11 caracters"
+  "name": "NOT_EXISTS_ERROR",
+  "message": "document does not exist"
 }
 
-Caso de erro quando o document tiver caracteres que não sejam números:
+Caso de erro quando o cpf tiver caracteres que não sejam números:
 - status code: 400
 - response: {
   "name": "INVALID_CHARACTERS_ERROR",
@@ -217,17 +211,13 @@ POST /relationship
 Descrição: Cria um novo relacionamento
 
 Body: {
-  "document1": string,
-  "document2": string
+  "cpf1": string,
+  "cpf2": string
 }
 
 Caso de sucesso:
-- status code: 201
-- response: {
-  "document": string,
-  "name": string,
-  "id": string
-}
+- status code: 200
+- response: não retorna nenhuma informação
 
 Caso de erro quando não for informado dois documents:
 - status code: 400
@@ -266,8 +256,8 @@ Descrição: Busca todos os relacionamentos
 Caso de sucesso:
 - status code: 200
 - response: [{
-  "document1": string,
-  "document2": string,
+  "cpf1": string,
+  "cpf2": string,
 }]
 
 Caso de erro quando houver algum problema inesperado na aplicação
@@ -278,7 +268,7 @@ Caso de erro quando houver algum problema inesperado na aplicação
 }
 ```
 
-GET /recommendations/:document
+GET /recommendations/:cpf
 
 ```txt
 Descrição: Busca as sugestões de amigos
@@ -287,7 +277,7 @@ Caso de sucesso:
 - status code: 200
 - response: [string]
 
-Caso de erro quando o document não tiver 11 números:
+Caso de erro quando o cpf não tiver 11 números:
 - status code: 400
 - response: {
   "name": "INVALID_LENGTH_DOCUMENT_ERROR",
